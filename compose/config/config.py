@@ -26,6 +26,7 @@ from ..utils import parse_bytes
 from ..utils import parse_nanoseconds_int
 from ..utils import splitdrive
 from ..version import ComposeVersion
+from ..utils import cached
 from .environment import env_vars_from_file
 from .environment import Environment
 from .environment import split_env
@@ -1434,6 +1435,7 @@ def has_uppercase(name):
     return any(char in string.ascii_uppercase for char in name)
 
 
+@cached
 def load_yaml(filename, encoding=None):
     try:
         with io.open(filename, 'r', encoding=encoding) as fh:

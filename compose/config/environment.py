@@ -10,6 +10,7 @@ import six
 
 from ..const import IS_WINDOWS_PLATFORM
 from .errors import ConfigurationError
+from ..utils import cached
 
 log = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ def split_env(env):
         return env, None
 
 
+@cached
 def env_vars_from_file(filename):
     """
     Read in a line delimited file of environment variables.

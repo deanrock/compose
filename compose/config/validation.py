@@ -16,6 +16,7 @@ from jsonschema import ValidationError
 
 from ..const import COMPOSEFILE_V1 as V1
 from ..const import NANOCPUS_SCALE
+from ..utils import cached
 from .errors import ConfigurationError
 from .errors import VERSION_EXPLANATION
 from .sort_services import get_service_name_from_network_mode
@@ -462,6 +463,11 @@ def get_schema_path():
 
 
 def load_jsonschema(config_file):
+    return cached_load_jsonschema(config_file)
+
+
+@cached
+def cached_load_jsonschema(config_file):
     filename = os.path.join(
         get_schema_path(),
         "config_schema_v{0}.json".format(config_file.version))

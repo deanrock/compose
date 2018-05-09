@@ -19,6 +19,7 @@ from .timeparse import timeparse
 
 json_decoder = json.JSONDecoder()
 log = logging.getLogger(__name__)
+cached_responses = {}
 
 
 def get_output_stream(stream):
@@ -151,3 +152,20 @@ def unquote_path(s):
     if s[0] == '"' and s[-1] == '"':
         return s[1:-1]
     return s
+
+
+def cached(f):
+    def c(*args, **kwargs):
+        key = json.dumps({
+            'args': args,
+            'kwargs': kwargs,
+        })
+
+        if key in cached_responses:
+            return cached_responses[key]
+
+        r = f(*args, **kwargs)
+        cached_responses[key] = r
+        return r
+
+    return c
